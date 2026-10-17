@@ -1,0 +1,24 @@
+[mysqld]
+# --- GTID replication ---
+gtid_mode                      = ON
+enforce_gtid_consistency       = ON
+log_bin                        = binlog
+log_replica_updates            = ON
+binlog_expire_logs_seconds     = 604800
+sync_binlog                    = 1
+innodb_flush_log_at_trx_commit = 1
+relay_log                      = relay-bin
+relay_log_recovery             = ON
+replica_preserve_commit_order  = ON
+
+# --- plugins: loaded everywhere so any node can take any role ---
+plugin_load_add = semisync_source.so
+plugin_load_add = semisync_replica.so
+plugin_load_add = mysql_clone.so
+
+# ProxySQL monitor/app users use mysql_native_password (disabled by default in 8.4)
+mysql_native_password = ON
+
+# --- sized for shared VMs ---
+innodb_buffer_pool_size = 256M
+max_connections         = 300

@@ -1,0 +1,3 @@
+[mysqld]
+server_id   = 99
+report_host = mysql-restore

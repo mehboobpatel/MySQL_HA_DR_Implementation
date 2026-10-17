@@ -1,0 +1,43 @@
+name: site1
+services:
+  mysql-primary:
+    image: mysql:8.4
+    container_name: mysql-primary
+    hostname: mysql-primary
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - /data/mysql-primary:/var/lib/mysql
+      - ../common.cnf:/etc/mysql/conf.d/00-common.cnf:ro
+      - ./primary.cnf:/etc/mysql/conf.d/10-server.cnf:ro
+    ports: ["3306:3306"]
+    networks: [site1]
+
+  mysql-replica:
+    image: mysql:8.4
+    container_name: mysql-replica
+    hostname: mysql-replica
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - /data/mysql-replica:/var/lib/mysql
+      - ../common.cnf:/etc/mysql/conf.d/00-common.cnf:ro
+      - ./replica.cnf:/etc/mysql/conf.d/10-server.cnf:ro
+    ports: ["3307:3306"]
+    networks: [site1]
+
+  proxysql:
+    image: proxysql/proxysql:2.7.1
+    container_name: proxysql
+    restart: unless-stopped
+    volumes:
+      - ./proxysql.cnf:/etc/proxysql.cnf:ro
+    ports: ["6033:6033", "127.0.0.1:6032:6032"]
+    networks: [site1]
+
+networks:
+  site1:
+    name: site1-net
+    ipam: { config: [ { subnet: 172.20.0.0/24 } ] }

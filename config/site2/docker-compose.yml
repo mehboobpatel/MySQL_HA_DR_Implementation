@@ -1,0 +1,19 @@
+name: site2
+services:
+  mysql-dr:
+    image: mysql:8.4
+    container_name: mysql-dr
+    hostname: mysql-dr
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - /data/mysql-dr:/var/lib/mysql
+      - ../common.cnf:/etc/mysql/conf.d/00-common.cnf:ro
+      - ./dr.cnf:/etc/mysql/conf.d/10-server.cnf:ro
+    ports: ["3306:3306"]
+    networks: [site2]
+networks:
+  site2:
+    name: site2-net
+    ipam: { config: [ { subnet: 172.21.0.0/24 } ] }

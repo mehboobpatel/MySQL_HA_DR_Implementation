@@ -1,0 +1,15 @@
+Variable_name	Value
+Rpl_semi_sync_source_clients	1
+Rpl_semi_sync_source_net_avg_wait_time	0
+Rpl_semi_sync_source_net_wait_time	0
+Rpl_semi_sync_source_net_waits	1
+Rpl_semi_sync_source_no_times	1
+Rpl_semi_sync_source_no_tx	2
+Rpl_semi_sync_source_status	ON
+Rpl_semi_sync_source_timefunc_failures	0
+Rpl_semi_sync_source_tx_avg_wait_time	0
+Rpl_semi_sync_source_tx_wait_time	0
+Rpl_semi_sync_source_tx_waits	0
+Rpl_semi_sync_source_wait_pos_backtraverse	0
+Rpl_semi_sync_source_wait_sessions	0
+Rpl_semi_sync_source_yes_tx	0

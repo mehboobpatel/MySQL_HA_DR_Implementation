@@ -1,0 +1,4 @@
+@@server_id	@@read_only	@@super_read_only
+2	1	1
+COUNT(*)
+5000

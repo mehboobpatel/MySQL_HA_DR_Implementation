@@ -1,0 +1,8 @@
+*************************** 1. row ***************************
+             File: binlog.000001
+         Position: 153285
+     Binlog_Do_DB: 
+ Binlog_Ignore_DB: 
+Executed_Gtid_Set: dd6ace83-ca5f-11f1-9a7f-4a9b1980a26e:1-9
+Server_Id	Host	Port	Source_Id	Replica_UUID
+2	mysql-replica	3306	1	dd6abe3a-ca5f-11f1-99a4-b249d595cd4b

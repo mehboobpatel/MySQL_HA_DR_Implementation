@@ -1,0 +1,3 @@
+hostgroup_id	hostname	status
+10	mysql-primary	ONLINE
+20	mysql-replica	ONLINE

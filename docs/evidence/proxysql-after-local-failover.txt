@@ -1,0 +1,4 @@
+hostgroup_id	hostname	status
+10	mysql-replica	ONLINE
+20	mysql-primary	SHUNNED
+20	mysql-replica	ONLINE

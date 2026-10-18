@@ -2,27 +2,7 @@
 
 ## Diagram
 
-```mermaid
-flowchart TB
-  APP["Application / workload.sh<br/>(runs on VM2)"]
-
-  subgraph S1["SITE 1 — VM interakt-dev-rabbitmq-01 (10.0.0.61) — docker net site1-net 172.20.0.0/24"]
-    PX["ProxySQL 2.7.1<br/>:6033 app · :6032 admin (127.0.0.1 only)<br/>HG10 = writer · HG20 = reader<br/>role chosen by read_only"]
-    P[("mysql-primary<br/>server_id 1 · host :3306<br/>/data/mysql-primary")]
-    R[("mysql-replica<br/>server_id 2 · host :3307<br/>/data/mysql-replica<br/>super_read_only")]
-    PX -->|writes| P
-    PX -.->|reads / standby| R
-    P ==>|"GTID + semi-sync AFTER_SYNC<br/>TLS, user repl"| R
-  end
-
-  subgraph S2["SITE 2 — VM interakt-signoz (10.0.0.53) — docker net site2-net 172.21.0.0/24"]
-    D[("mysql-dr<br/>server_id 3 · host :3306<br/>/data/mysql-dr<br/>super_read_only")]
-  end
-
-  APP -->|"tcp/6033 (normal operation)"| PX
-  APP -.->|"tcp/3306 (only after DR failover)"| D
-  P -->|"async GTID replication, TLS<br/>VPC internal tcp/3306<br/>FW rule site2-to-site1-mysql"| D
-```
+<img width="522" height="621" alt="image" src="https://github.com/user-attachments/assets/fcbd9379-e0a9-4877-86ca-b4684014d1b2" />
 
 Text version (same thing, for terminals):
 

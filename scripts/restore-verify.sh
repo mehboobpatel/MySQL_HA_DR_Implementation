@@ -3,7 +3,7 @@
 source "$(dirname "$0")/lib.sh"
 F=${1:?backup file}; SRC=${2:-mysql-primary}
 docker rm -f mysql-restore >/dev/null 2>&1
-docker run -d --name mysql-restore -e MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD" \
+docker run --disable-content-trust -d --name mysql-restore -e MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD" \
   -v "$REPO/config/common.cnf:/etc/mysql/conf.d/00-common.cnf:ro" \
   -v "$REPO/config/site2/restore.cnf:/etc/mysql/conf.d/10-server.cnf:ro" mysql:8.4 >/dev/null
 waitdb mysql-restore

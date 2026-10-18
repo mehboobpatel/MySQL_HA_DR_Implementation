@@ -1,0 +1,4 @@
+mysql-restore ready
+compared rows with id <= 228571
+restored: 225380	482496682164234
+source:   225380	482496682164234

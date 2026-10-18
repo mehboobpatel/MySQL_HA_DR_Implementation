@@ -1,0 +1,18 @@
+# VM1, after Test 1: old primary restarted and rebuilt as a replica of mysql-replica (the new primary)
+$ docker start mysql-primary; waitdb mysql-primary
+$ NEWSET=$(sql mysql-replica -N -e "SELECT @@GLOBAL.gtid_executed" | tr -d '\n')
+$ sql mysql-primary -e "SELECT GTID_SUBTRACT(@@GLOBAL.gtid_executed, '$NEWSET') AS errant;"
+errant
+                      <- empty: no errant transactions, safe to attach without re-cloning
+
+$ sql mysql-primary   # SET PERSIST rpl_semi_sync_source_enabled=OFF; SET PERSIST rpl_semi_sync_replica_enabled=ON;
+                      # CHANGE REPLICATION SOURCE TO SOURCE_HOST='mysql-replica' ... SOURCE_AUTO_POSITION=1, SOURCE_SSL=1; START REPLICA;
+$ sql mysql-replica -e "SET PERSIST rpl_semi_sync_source_enabled = ON; SET PERSIST rpl_semi_sync_source_timeout = 10000;"
+$ sql mysql-replica -e "SHOW GLOBAL STATUS LIKE 'Rpl_semi_sync_source_clients';"
+Variable_name	Value
+Rpl_semi_sync_source_clients	1
+
+# Note: a CLONE INSTANCE was also attempted by mistake (only needed when errant is non-empty) and was
+# rejected because the recipient was super_read_only -> no data changed. Runbook §3b now disables
+# super_read_only for the duration of a clone.
+ERROR 1290 (HY000) at line 2: The MySQL server is running with the --super-read-only option so it cannot execute this statement

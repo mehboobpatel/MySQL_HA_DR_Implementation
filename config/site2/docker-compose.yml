@@ -1,7 +1,7 @@
 name: site2
 services:
   mysql-dr:
-    image: mysql:8.4
+    image: mysql:8.4.11
     container_name: mysql-dr
     hostname: mysql-dr
     restart: unless-stopped

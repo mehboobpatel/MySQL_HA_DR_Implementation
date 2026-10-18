@@ -1,7 +1,7 @@
 name: site1
 services:
   mysql-primary:
-    image: mysql:8.4
+    image: mysql:8.4.11
     container_name: mysql-primary
     hostname: mysql-primary
     restart: unless-stopped
@@ -15,7 +15,7 @@ services:
     networks: [site1]
 
   mysql-replica:
-    image: mysql:8.4
+    image: mysql:8.4.11
     container_name: mysql-replica
     hostname: mysql-replica
     restart: unless-stopped
